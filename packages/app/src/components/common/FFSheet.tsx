@@ -76,8 +76,8 @@ export const FFScrollSheet = forwardRef(
     ref: Ref<BottomSheetModalMethods>
   ) => (
     <FFSheetBase ref={ref} {...props}>
-      <BottomSheetScrollView>
-        <View px="5" pt="7">
+      <BottomSheetScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View px="5" pt="7" flex={1}>
           {children}
         </View>
       </BottomSheetScrollView>

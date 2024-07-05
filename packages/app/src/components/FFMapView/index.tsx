@@ -74,7 +74,7 @@ export const FFMapView = ({ reports }: FFMapViewProps) => {
         <Camera
           defaultSettings={{
             centerCoordinate: [MAP_REGION.longitude, MAP_REGION.latitude],
-            zoomLevel: 9,
+            zoomLevel: 10,
           }}
           maxBounds={MAP_REGION.bounds}
           minZoomLevel={9}

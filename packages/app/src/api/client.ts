@@ -56,7 +56,7 @@ type PostReport = {
 };
 
 const postReport = async (report: PostReport) => {
-  const { data } = await axios.post("basics/newInspector", report);
+  const { data } = await axios.post("newInspector", report);
 
   return data;
 };

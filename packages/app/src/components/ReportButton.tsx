@@ -43,13 +43,10 @@ export const ReportModal = forwardRef(
     }));
 
     const [lineType, setLineType] = useState<"u" | "s">("u");
-
     const [selectedLine, setSelectedLine] = useState<string | null>(null);
-
     const [selectedDirection, setSelectedDirection] = useState<string | null>(
       null
     );
-
     const [selectedStation, setSelectedStation] = useState<string | null>(null);
 
     const isValid =
@@ -60,6 +57,7 @@ export const ReportModal = forwardRef(
     useEffect(() => setSelectedLine(null), [lineType]);
     useEffect(() => {
       setSelectedDirection(null);
+      sheetRef.current?.expand();
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }, [selectedLine]);
     useEffect(() => setSelectedStation(null), [selectedLine]);
@@ -107,106 +105,118 @@ export const ReportModal = forwardRef(
           justifyContent="space-between"
           overflow="visible"
           position="relative"
-          safeAreaBottom
           flex={1}
+          safeAreaBottom
         >
-          <Text bold fontSize="2xl" mb={4} color="white">
-            Kontrolle Melden
-          </Text>
-          <FFCarousellSelect
-            options={["u", "s"]}
-            selectedOption={lineType}
-            onSelect={setLineType}
-            containerProps={{ py: 3, flex: 1 }}
-            renderOption={(option) =>
-              option === "u" ? (
-                <View borderRadius={8} px={4} py={1} bg="lines.U7">
-                  <Text color="white" fontSize="xl" fontWeight="bold">
-                    U
-                  </Text>
-                </View>
-              ) : (
-                <View borderRadius={999} px={3} py={1} bg="lines.S25">
-                  <Text color="white" fontSize="xl" fontWeight="bold">
-                    S
-                  </Text>
-                </View>
-              )
-            }
-          />
-          <Text fontSize="xl" fontWeight="bold" color="white" mt={4} mb={2}>
-            Linie
-          </Text>
-          <View mx={-4}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: theme.space[5] }}
-            >
-              <FFCarousellSelect
-                options={lineOptions}
-                selectedOption={selectedLine}
-                onSelect={setSelectedLine}
-                containerProps={{ py: 3, px: 4 }}
-                renderOption={(line) => (
-                  <FFLineTag line={line} textProps={{ fontSize: "2xl" }} />
-                )}
-              />
-            </ScrollView>
-          </View>
-          {selectedLine !== null && (
-            <>
-              <Text fontSize="xl" fontWeight="bold" color="white" mt={4} mb={2}>
-                Richtung
-              </Text>
-              <FFCarousellSelect
-                vertical
-                options={directionOptions}
-                selectedOption={selectedDirection}
-                onSelect={setSelectedDirection}
-                containerProps={{ py: 3, px: 4 }}
-                renderOption={(direction) => (
-                  <Row alignSelf="flex-start">
-                    <Text bold color="white">
-                      {stations[direction].name}
+          <View>
+            <Text bold fontSize="xl" mb={4} color="white">
+              Kontrolle Melden
+            </Text>
+            <FFCarousellSelect
+              options={["u", "s"]}
+              selectedOption={lineType}
+              onSelect={setLineType}
+              containerProps={{ py: 3, flex: 1 }}
+              renderOption={(option) =>
+                option === "u" ? (
+                  <View borderRadius={8} px={4} py={1} bg="lines.U7">
+                    <Text color="white" fontSize="xl" fontWeight="bold">
+                      U
                     </Text>
-                  </Row>
-                )}
-              />
-              <Text fontSize="xl" fontWeight="bold" color="white" mt={4} mb={2}>
-                Station
-              </Text>
-              <ScrollView style={{ height: 250 }}>
+                  </View>
+                ) : (
+                  <View borderRadius={999} px={3} py={1} bg="lines.S25">
+                    <Text color="white" fontSize="xl" fontWeight="bold">
+                      S
+                    </Text>
+                  </View>
+                )
+              }
+            />
+            <Text fontSize="md" fontWeight="bold" color="white" mt={4} mb={2}>
+              Linie
+            </Text>
+            <View mx={-4}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: theme.space[5] }}
+              >
+                <FFCarousellSelect
+                  options={lineOptions}
+                  selectedOption={selectedLine}
+                  onSelect={setSelectedLine}
+                  containerProps={{ py: 3, px: 4 }}
+                  renderOption={(line) => (
+                    <FFLineTag line={line} textProps={{ fontSize: "2xl" }} />
+                  )}
+                />
+              </ScrollView>
+            </View>
+            {selectedLine !== null && (
+              <>
+                <Text
+                  fontSize="md"
+                  fontWeight="bold"
+                  color="white"
+                  mt={4}
+                  mb={2}
+                >
+                  Richtung
+                </Text>
                 <FFCarousellSelect
                   vertical
+                  options={directionOptions}
+                  selectedOption={selectedDirection}
+                  onSelect={setSelectedDirection}
+                  containerProps={{ py: 3, px: 4 }}
+                  renderOption={(direction, isSelected) => (
+                    <Row alignSelf="flex-start">
+                      <Text color="white" bold={isSelected}>
+                        {stations[direction].name}
+                      </Text>
+                    </Row>
+                  )}
+                />
+                <Text
+                  fontSize="md"
+                  fontWeight="bold"
+                  color="white"
+                  mt={4}
+                  mb={2}
+                >
+                  Station
+                </Text>
+                <FFCarousellSelect
+                  vertical
+                  collapses
                   options={stationOptions}
                   selectedOption={selectedStation}
                   onSelect={setSelectedStation}
                   containerProps={{ py: 3, px: 4 }}
-                  renderOption={(station) => (
+                  renderOption={(station, isSelected) => (
                     <Row alignSelf="flex-start">
-                      <Text bold color="white">
+                      <Text color="white" bold={isSelected}>
                         {stations[station].name}
                       </Text>
                     </Row>
                   )}
                 />
-              </ScrollView>
-            </>
-          )}
+              </>
+            )}
+          </View>
           <FFButton
             onPress={onSubmit}
             isDisabled={isPending || !isValid}
             bg="selected"
             mt={8}
           >
-            {isPending ? (
-              <FFSpinner />
-            ) : (
-              <Text color="white" fontSize="lg" fontWeight="bold">
+            <Row alignItems="center">
+              <Text color="white" fontSize="lg" bold mr={6}>
                 Melden
               </Text>
-            )}
+              {isPending && <FFSpinner size={6} />}
+            </Row>
           </FFButton>
         </Box>
       </FFScrollSheet>
