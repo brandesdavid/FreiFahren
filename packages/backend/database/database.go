@@ -42,8 +42,10 @@ func InsertTicketInfo(timestamp *time.Time, author *int64, message, line, statio
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
     `
 
+	timestampString := timestamp.Format("2006-01-02 15:04:05")
+
 	// Convert *string and *int64 directly to interface{} for pgx
-	values := []interface{}{timestamp, message, author, line, stationName, stationId, directionName, directionId}
+	values := []interface{}{timestampString, message, author, line, stationName, stationId, directionName, directionId}
 
 	logger.Log.Info().Msg("Inserting ticket info into the database")
 	_, err := db.Exec(sql, values...)
@@ -197,7 +199,7 @@ func GetLatestTicketInspectors() ([]utils.TicketInspector, error) {
 		SELECT timestamp, station_id, direction_id, line,
 		CASE WHEN author IS NULL THEN  message ELSE NULL END AS message 
 		FROM ticket_info
-		WHERE station_name IS NOT NULL AND station_id IS NOT NULL;`
+		WHERE station_name IS NOT NULL AND station_id IS NOT NULL AND datetime(timestamp) >= datetime('now', '-60 minutes');`
 	// WHERE datetime(timestamp) >= datetime('now', '-60 minutes')
 
 	logger.Log.Info().Msg("Getting latest ticket inspectors")

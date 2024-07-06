@@ -32,6 +32,7 @@ yarn-error.*
 *.tsbuildinfo
 
 # Android/IntelliJ
+android/
 build/
 .idea
 .gradle
@@ -39,3 +40,6 @@ local.properties
 *.iml
 *.hprof
 .cxx/
+
+# iOS/Xcode
+ios/
