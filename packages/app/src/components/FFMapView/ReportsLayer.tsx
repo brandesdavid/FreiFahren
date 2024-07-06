@@ -40,7 +40,7 @@ const useShowMarkersWithDelay = () => {
   return showMarkers;
 };
 
-const Pulse = () => {
+const usePulseAnimation = () => {
   const pulse = useSharedValue(0);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Pulse = () => {
     );
   }, [pulse]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  return useAnimatedStyle(() => ({
     opacity: interpolate(pulse.value, [0, 1], [1, 0]),
     transform: [
       {
@@ -65,8 +65,6 @@ const Pulse = () => {
       },
     ],
   }));
-
-  return <Animated.View style={[styles.pulse, animatedStyle]} />;
 };
 
 type ReportsLayerProps = {
@@ -96,6 +94,8 @@ export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
     [reports]
   );
 
+  const pulseAnimatedStyle = usePulseAnimation();
+
   const showMarkers = useShowMarkersWithDelay();
 
   return (
@@ -111,7 +111,7 @@ export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
             allowOverlap
           >
             <Pressable onPress={() => onPressReport(report)} hitSlop={10}>
-              <Pulse />
+              <Animated.View style={[styles.pulse, pulseAnimatedStyle]} />
             </Pressable>
           </MarkerView>
         ))}

@@ -32,7 +32,7 @@ export const ReportListSheet = forwardRef(
           </View>
         ) : (
           <View mt={4}>
-            <Stack space={4} pb={12}>
+            <Stack space={5} pb={12}>
               {reports.map((report) => (
                 <ReportItem
                   key={`${

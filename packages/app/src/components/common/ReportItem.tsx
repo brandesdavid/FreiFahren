@@ -15,7 +15,7 @@ export const ReportItem = ({ report }: ReportItemProps) => {
     <View flexDir="row" alignItems="flex-start">
       <View alignItems="center" mr={2}>
         <FFLineTag line={report.line} />
-        <Text color="fg" textAlign="center">
+        <Text color="fg" textAlign="center" mt={1}>
           {report.timestamp.toLocaleTimeString("de-DE", {
             hour: "2-digit",
             minute: "2-digit",
@@ -26,7 +26,9 @@ export const ReportItem = ({ report }: ReportItemProps) => {
         <Text color="white" bold>
           {station.name}
         </Text>
-        <Text color="fg">Richtung {report.direction.name}</Text>
+        <Text color="fg" mt={1}>
+          Richtung {report.direction?.name ?? "unbekannt"}
+        </Text>
       </View>
     </View>
   );

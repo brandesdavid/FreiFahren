@@ -8,11 +8,17 @@ import { config } from "../config";
 export const reportSchema = z
   .object({
     timestamp: z.string().transform((value) => new Date(value)),
-    line: z.string(),
-    direction: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
+    line: z
+      .string()
+      .transform((value: string) => (value === "" ? null : value)),
+    direction: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+      })
+      .transform((value) =>
+        value.name === "" || value.id === "" ? null : value
+      ),
     station: z.object({
       id: z.string(),
     }),
@@ -33,7 +39,7 @@ const client = axios.create({
 });
 
 const getReports = async (): Promise<Report[]> => {
-  const { data } = await client.get("basics/recent");
+  const { data } = await client.get("/basics/recent");
 
   return reportSchema.array().parse(data);
 };
@@ -56,7 +62,7 @@ type PostReport = {
 };
 
 const postReport = async (report: PostReport) => {
-  const { data } = await axios.post("newInspector", report);
+  const { data } = await client.post("/basics/newInspector", report);
 
   return data;
 };
