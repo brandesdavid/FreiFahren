@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 9999,
   },
+  marker: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 // Workaround: Map pan performance issue when showing markers immediately
@@ -110,7 +116,11 @@ export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
             key={report.stationId}
             allowOverlap
           >
-            <Pressable onPress={() => onPressReport(report)} hitSlop={10}>
+            <Pressable
+              style={styles.marker}
+              onPress={() => onPressReport(report)}
+              hitSlop={10}
+            >
               <Animated.View style={[styles.pulse, pulseAnimatedStyle]} />
             </Pressable>
           </MarkerView>

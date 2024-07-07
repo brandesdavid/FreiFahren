@@ -38,6 +38,7 @@
       "package": "com.anonymous.Freifahren",
       "permissions": [
         "ACCESS_FINE_LOCATION",
+        "INTERNET",
       ]
     },
     "web": {

@@ -43,7 +43,7 @@ export const ReportDetailsNotification = ({
   };
 
   return (
-    <Box safeAreaTop position="absolute" top={0} left={0} right={0} px={4}>
+    <Box safeAreaTop position="absolute" top={6} left={0} right={0} px={4}>
       <Animated.View style={animatedStyle}>
         <FFBox flexDir="row" alignItems="center" justifyContent="space-between">
           <ReportItem report={report} />

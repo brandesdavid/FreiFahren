@@ -209,14 +209,20 @@ export const ReportSheet = forwardRef(
             onPress={onSubmit}
             isDisabled={isPending || !isValid}
             bg="selected"
+            alignItems="center"
             mt={8}
           >
-            <Row alignItems="center">
+            {isPending ? (
+              <FFSpinner
+                size={6}
+                color1="white"
+                color2={theme.colors.selected}
+              />
+            ) : (
               <Text color="white" fontSize="lg" bold mr={6}>
                 Melden
               </Text>
-              {isPending && <FFSpinner size={6} />}
-            </Row>
+            )}
           </FFButton>
         </Box>
       </FFScrollSheet>

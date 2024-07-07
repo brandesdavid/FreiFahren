@@ -1,10 +1,10 @@
-import { Button } from "native-base";
+import { Pressable } from "native-base";
 import { ComponentProps, PropsWithChildren } from "react";
 
-type FFButtonProps = PropsWithChildren<ComponentProps<typeof Button>>;
+type FFButtonProps = PropsWithChildren<ComponentProps<typeof Pressable>>;
 
 export const FFButton = ({ children, ...props }: FFButtonProps) => (
-  <Button
+  <Pressable
     backgroundColor="bg"
     borderRadius={24}
     borderColor="bg2"
@@ -13,5 +13,5 @@ export const FFButton = ({ children, ...props }: FFButtonProps) => (
     {...props}
   >
     {children}
-  </Button>
+  </Pressable>
 );
