@@ -64,7 +64,7 @@ const usePulseAnimation = () => {
   }, [pulse]);
 
   return useAnimatedStyle(() => ({
-    opacity: interpolate(pulse.value, [0, 1], [1, 0]),
+    opacity: interpolate(pulse.value, [0, 1], [0.8, 0]),
     transform: [
       {
         scale: interpolate(pulse.value, [0, 1], [0, 2.2]),
@@ -73,14 +73,11 @@ const usePulseAnimation = () => {
   }));
 };
 
-type ReportsLayerProps = {
-  reports: Report[];
-  onPressReport: (report: Report) => void;
-};
+const useReportsGeoJson = (reports: Report[]) =>
+  useMemo(() => {
+    const now = Date.now();
 
-export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
-  const reportsGeoJson = useMemo(
-    () => ({
+    return {
       type: "FeatureCollection",
       features: reports.map((report) => {
         const { coordinates } = stations[report.stationId];
@@ -93,12 +90,25 @@ export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
           },
           properties: {
             id: report.stationId,
+            opacity:
+              1.4 -
+              Math.min(
+                (now - new Date(report.timestamp).getTime()) / (1000 * 60 * 60),
+                1
+              ),
           },
         };
       }),
-    }),
-    [reports]
-  );
+    };
+  }, [reports]);
+
+type ReportsLayerProps = {
+  reports: Report[];
+  onPressReport: (report: Report) => void;
+};
+
+export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
+  const reportsGeoJson = useReportsGeoJson(reports);
 
   const pulseAnimatedStyle = usePulseAnimation();
 
@@ -136,6 +146,8 @@ export const ReportsLayer = ({ reports, onPressReport }: ReportsLayerProps) => {
             circleColor: "#f00",
             circleStrokeWidth: 3,
             circleStrokeColor: "#fff",
+            circleOpacity: ["get", "opacity"],
+            circleStrokeOpacity: ["get", "opacity"],
           }}
         />
       </ShapeSource>

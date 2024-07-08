@@ -4,15 +4,19 @@ import MapLibreGL, {
   MapView,
   ShapeSource,
   UserLocation,
+  UserTrackingMode,
 } from "@maplibre/maplibre-react-native";
 import Geolocation from "@react-native-community/geolocation";
 import { noop } from "lodash";
+import { useTheme } from "native-base";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Report } from "../../api";
 import { config } from "../../config";
 import lines from "../../data/line-segments.json";
+import { Theme } from "../../theme";
 import { ReportDetailsNotification } from "./ReportDetailsNotification";
 import { ReportsLayer } from "./ReportsLayer";
 import { StationLayer } from "./StationLayer";
@@ -61,6 +65,10 @@ export const FFMapView = ({ reports }: FFMapViewProps) => {
     Geolocation.requestAuthorization(noop, noop);
   }, []);
 
+  const theme = useTheme() as Theme;
+
+  const { bottom } = useSafeAreaInsets();
+
   const [reportToShow, setReportToShow] = useState<Report | null>(null);
 
   return (
@@ -70,6 +78,8 @@ export const FFMapView = ({ reports }: FFMapViewProps) => {
         logoEnabled={false}
         styleURL={config.MAP_STYLE_URL}
         attributionEnabled={false} // TODO: Custom attribution
+        compassViewMargins={{ x: theme.space[4], y: 5 + bottom }}
+        compassViewPosition={2}
       >
         <Camera
           defaultSettings={{
@@ -79,6 +89,7 @@ export const FFMapView = ({ reports }: FFMapViewProps) => {
           maxBounds={MAP_REGION.bounds}
           minZoomLevel={9}
           maxZoomLevel={13}
+          followUserMode={UserTrackingMode.Follow}
         />
         <LinesLayer />
         <StationLayer />
