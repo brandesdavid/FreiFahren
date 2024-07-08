@@ -35,6 +35,7 @@ const client = axios.create({
   headers: {
     "ff-app-version": DeviceInfo.getVersion(),
     "ff-platform": Platform.OS,
+    "Cache-Control": "no-cache",
   },
 });
 
