@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Stack, Text, View } from "native-base";
 import {
@@ -8,6 +8,7 @@ import {
   Ref,
   useRef,
 } from "react";
+import { Text as RNText } from "react-native";
 
 import { useReports } from "../../api";
 import { FFButton } from "../common/FFButton";
@@ -56,8 +57,23 @@ export const ReportListButton = (props: ReportListButtonProps) => {
 
   return (
     <>
-      <FFButton onPress={() => sheetRef.current?.present()} {...props}>
-        <Ionicons name="list-outline" size={40} color="white" />
+      <FFButton
+        onPress={() => sheetRef.current?.present()}
+        px={5}
+        py={3}
+        {...props}
+      >
+        <Entypo name="menu" size={24} color="white" />
+        <RNText
+          style={{
+            color: "white",
+            fontSize: 20,
+            fontWeight: "bold",
+            marginLeft: 10,
+          }}
+        >
+          Liste
+        </RNText>
       </FFButton>
       <ReportListSheet ref={sheetRef} />
     </>
