@@ -13,14 +13,14 @@ import {
 import { LayoutAnimation } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { useSubmitReport } from "../api/queries";
-import { lines, stations } from "../data";
-import { Theme } from "../theme";
-import { FFButton } from "./common/FFButton";
-import { FFCarousellSelect } from "./common/FFCarousellSelect";
-import { FFLineTag } from "./common/FFLineTag";
-import { FFScrollSheet } from "./common/FFSheet";
-import { FFSpinner } from "./common/FFSpinner";
+import { useSubmitReport } from "../../api";
+import { lines, stations } from "../../data";
+import { Theme } from "../../theme";
+import { FFButton } from "../common/FFButton";
+import { FFCarousellSelect } from "../common/FFCarousellSelect";
+import { FFLineTag } from "../common/FFLineTag";
+import { FFScrollSheet } from "../common/FFSheet";
+import { FFSpinner } from "../common/FFSpinner";
 
 export type ReportSheetMethods = {
   open: () => void;

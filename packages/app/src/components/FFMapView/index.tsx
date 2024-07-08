@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Report } from "../../api";
+import { Report, useReports } from "../../api";
 import { config } from "../../config";
 import lines from "../../data/line-segments.json";
 import { Theme } from "../../theme";
@@ -56,11 +56,9 @@ export const LinesLayer = () => (
   </ShapeSource>
 );
 
-type FFMapViewProps = {
-  reports: Report[];
-};
+export const FFMapView = () => {
+  const { data: reports = [] } = useReports();
 
-export const FFMapView = ({ reports }: FFMapViewProps) => {
   useEffect(() => {
     Geolocation.requestAuthorization(noop, noop);
   }, []);

@@ -2,7 +2,7 @@ import { Octicons } from "@expo/vector-icons";
 import { Button } from "native-base";
 import { ComponentProps, useRef } from "react";
 
-import { FFButton } from "./common/FFButton";
+import { FFButton } from "../common/FFButton";
 import { ReportSheet, ReportSheetMethods } from "./ReportSheet";
 
 type ReportButtonProps = Omit<ComponentProps<typeof Button>, "onPress">;
