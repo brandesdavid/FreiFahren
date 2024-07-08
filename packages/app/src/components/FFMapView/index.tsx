@@ -8,7 +8,7 @@ import MapLibreGL, {
 } from "@maplibre/maplibre-react-native";
 import Geolocation from "@react-native-community/geolocation";
 import { noop } from "lodash";
-import { useTheme } from "native-base";
+import { useTheme, View } from "native-base";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -17,6 +17,7 @@ import { Report, useReports } from "../../api";
 import { config } from "../../config";
 import lines from "../../data/line-segments.json";
 import { Theme } from "../../theme";
+import { Attribution } from "./Attribution";
 import { ReportDetailsNotification } from "./ReportDetailsNotification";
 import { ReportsLayer } from "./ReportsLayer";
 import { StationLayer } from "./StationLayer";
@@ -70,14 +71,14 @@ export const FFMapView = () => {
   const [reportToShow, setReportToShow] = useState<Report | null>(null);
 
   return (
-    <>
+    <View width="100%" height="100%">
       <MapView
         style={styles.map}
         logoEnabled={false}
         styleURL={config.MAP_STYLE_URL}
-        attributionEnabled={false} // TODO: Custom attribution
         compassViewMargins={{ x: theme.space[4], y: 5 + bottom }}
         compassViewPosition={2}
+        attributionEnabled={false}
       >
         <Camera
           defaultSettings={{
@@ -94,12 +95,13 @@ export const FFMapView = () => {
         <ReportsLayer reports={reports} onPressReport={setReportToShow} />
         <UserLocation visible animated />
       </MapView>
+      <Attribution />
       {reportToShow !== null && (
         <ReportDetailsNotification
           report={reportToShow}
           onClose={() => setReportToShow(null)}
         />
       )}
-    </>
+    </View>
   );
 };
