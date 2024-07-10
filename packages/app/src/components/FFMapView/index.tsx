@@ -89,8 +89,8 @@ export const FFMapView = () => {
         style={styles.map}
         logoEnabled={false}
         styleURL={config.MAP_STYLE_URL}
-        compassViewMargins={{ x: theme.space[4], y: 5 + bottom }}
-        compassViewPosition={2}
+        compassViewMargins={{ x: theme.space[4], y: 60 + bottom }}
+        compassViewPosition={3}
         attributionEnabled={false}
       >
         <Camera

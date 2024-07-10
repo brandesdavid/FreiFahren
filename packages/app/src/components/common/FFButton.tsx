@@ -9,9 +9,11 @@ export const FFButton = ({ children, ...props }: FFButtonProps) => (
     borderRadius={24}
     borderColor="bg2"
     borderWidth={3}
-    p={1}
     flexDir="row"
     alignItems="center"
+    justifyContent="center"
+    px={5}
+    py={3}
     {...props}
   >
     {children}

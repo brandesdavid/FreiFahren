@@ -21,6 +21,7 @@
     "axios": "^1.7.2",
     "expo": "~50.0.19",
     "expo-dev-client": "~3.3.12",
+    "expo-navigation-bar": "~2.8.1",
     "expo-status-bar": "~1.11.1",
     "lodash": "^4.17.21",
     "native-base": "^3.4.28",

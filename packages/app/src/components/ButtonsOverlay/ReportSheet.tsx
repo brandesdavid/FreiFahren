@@ -1,3 +1,4 @@
+import { Octicons } from "@expo/vector-icons";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Box, Row, Text, useTheme, View } from "native-base";
 import {
@@ -20,7 +21,6 @@ import { FFButton } from "../common/FFButton";
 import { FFCarousellSelect } from "../common/FFCarousellSelect";
 import { FFLineTag } from "../common/FFLineTag";
 import { FFScrollSheet } from "../common/FFSheet";
-import { FFSpinner } from "../common/FFSpinner";
 
 export type ReportSheetMethods = {
   open: () => void;
@@ -208,21 +208,21 @@ export const ReportSheet = forwardRef(
           <FFButton
             onPress={onSubmit}
             isDisabled={isPending || !isValid}
-            bg="selected"
-            alignItems="center"
+            bg={isPending ? "bg" : "blue"}
             mt={8}
+            borderWidth={isPending ? 3 : 0}
           >
-            {isPending ? (
-              <FFSpinner
-                size={6}
-                color1="white"
-                color2={theme.colors.selected}
-              />
-            ) : (
-              <Text color="white" fontSize="lg" bold mr={6}>
-                Melden
-              </Text>
-            )}
+            <Octicons name="report" size={24} color={theme.colors.bg} />
+            <Text
+              style={{
+                color: theme.colors.bg,
+                fontSize: 20,
+                fontWeight: "bold",
+                marginLeft: 10,
+              }}
+            >
+              Melden
+            </Text>
           </FFButton>
         </Box>
       </FFScrollSheet>

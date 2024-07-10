@@ -4,6 +4,7 @@ import DeviceInfo from "react-native-device-info";
 import { z } from "zod";
 
 import { config } from "../config";
+import { stations } from "../data";
 
 export const reportSchema = z
   .object({
@@ -26,7 +27,19 @@ export const reportSchema = z
   .transform(({ station, ...rest }) => ({
     ...rest,
     stationId: station.id,
-  }));
+  }))
+  .transform((value) => {
+    if (value.line !== null) return value;
+
+    if (stations[value.stationId].lines.length === 1) {
+      return {
+        ...value,
+        line: stations[value.stationId].lines[0],
+      };
+    }
+
+    return value;
+  });
 
 export type Report = z.infer<typeof reportSchema>;
 

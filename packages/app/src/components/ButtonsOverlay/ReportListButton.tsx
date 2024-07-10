@@ -71,6 +71,7 @@ export const ReportListButton = (props: ReportListButtonProps) => {
             fontWeight: "bold",
             marginLeft: 10,
           }}
+          // eslint-disable-next-line react-native/no-raw-text
         >
           Liste
         </RNText>

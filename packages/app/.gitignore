@@ -40,6 +40,7 @@ local.properties
 *.iml
 *.hprof
 .cxx/
+*.apk
 
 # iOS/Xcode
 ios/

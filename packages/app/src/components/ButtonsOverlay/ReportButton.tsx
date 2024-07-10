@@ -17,8 +17,6 @@ export const ReportButton = (props: ReportButtonProps) => {
     <>
       <FFButton
         onPress={() => modalRef.current?.open()}
-        px={5}
-        py={3}
         bg="blue"
         borderWidth={0}
         {...props}

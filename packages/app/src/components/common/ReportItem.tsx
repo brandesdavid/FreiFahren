@@ -1,4 +1,5 @@
-import { Text, View } from "native-base";
+import { isNil } from "lodash";
+import { Row, Text, View } from "native-base";
 
 import { Report } from "../../api";
 import { stations } from "../../data";
@@ -12,8 +13,8 @@ export const ReportItem = ({ report }: ReportItemProps) => {
   const station = stations[report.stationId];
 
   return (
-    <View flexDir="row" alignItems="flex-start">
-      <View alignItems="center" mr={2}>
+    <Row space={2} alignItems="flex-start">
+      <View alignItems="center">
         <FFLineTag line={report.line} />
         <Text color="fg" textAlign="center" mt={1}>
           {report.timestamp.toLocaleTimeString("de-DE", {
@@ -27,9 +28,14 @@ export const ReportItem = ({ report }: ReportItemProps) => {
           {station.name}
         </Text>
         <Text color="fg" mt={1}>
-          Richtung {report.direction?.name ?? "unbekannt"}
+          {"Richtung "}
+          {isNil(report.direction?.name) ? (
+            "unbekannt"
+          ) : (
+            <Text color="white">{report.direction.name}</Text>
+          )}
         </Text>
       </View>
-    </View>
+    </Row>
   );
 };
