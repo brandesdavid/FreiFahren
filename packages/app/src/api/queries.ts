@@ -9,6 +9,7 @@ export const useReports = <T = Report[]>(select?: (data: Report[]) => T) =>
     queryFn: api.getReports,
     staleTime: 1000 * 60,
     select,
+    refetchInterval: 1000 * 60,
   });
 
 export const useSubmitReport = () => {

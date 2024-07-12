@@ -4,15 +4,22 @@ import DeviceInfo from "react-native-device-info";
 import { z } from "zod";
 
 import { config } from "../config";
+import { stations } from "../data";
 
 export const reportSchema = z
   .object({
     timestamp: z.string().transform((value) => new Date(value)),
-    line: z.string(),
-    direction: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
+    line: z
+      .string()
+      .transform((value: string) => (value === "" ? null : value)),
+    direction: z
+      .object({
+        id: z.string(),
+        name: z.string(),
+      })
+      .transform((value) =>
+        value.name === "" || value.id === "" ? null : value
+      ),
     station: z.object({
       id: z.string(),
     }),
@@ -20,7 +27,19 @@ export const reportSchema = z
   .transform(({ station, ...rest }) => ({
     ...rest,
     stationId: station.id,
-  }));
+  }))
+  .transform((value) => {
+    if (value.line !== null) return value;
+
+    if (stations[value.stationId].lines.length === 1) {
+      return {
+        ...value,
+        line: stations[value.stationId].lines[0],
+      };
+    }
+
+    return value;
+  });
 
 export type Report = z.infer<typeof reportSchema>;
 
@@ -29,11 +48,12 @@ const client = axios.create({
   headers: {
     "ff-app-version": DeviceInfo.getVersion(),
     "ff-platform": Platform.OS,
+    "Cache-Control": "no-cache",
   },
 });
 
 const getReports = async (): Promise<Report[]> => {
-  const { data } = await client.get("basics/recent");
+  const { data } = await client.get("/basics/recent");
 
   return reportSchema.array().parse(data);
 };
@@ -56,7 +76,7 @@ type PostReport = {
 };
 
 const postReport = async (report: PostReport) => {
-  const { data } = await axios.post("basics/newInspector", report);
+  const { data } = await client.post("/basics/newInspector", report);
 
   return data;
 };
